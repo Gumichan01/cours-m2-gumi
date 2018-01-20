@@ -1,6 +1,4 @@
 
-
-
 type chtype =
     Bool
   | Int
@@ -17,20 +15,19 @@ type chexpression =
 
 type environment = (string * chtype) list;;
 
-let tc =
+let tc (env: environment) =
   function
-  | Const(s) -> Bool (* TODO this function *)
+  | Const(s) | Var(s) -> List.assoc s env
   | _ -> failwith "tc: invalid argument"
 
-let rec type_check (env: environment) expression =
- match expression with
- | Const _       -> tc expression
- | Var s         -> List.assoc s env
- | Pair(a1, a2)  ->
+let rec type_check (env: environment) =
+ function
+ | Const s | Var(s) -> tc env (Const(s))
+ | Pair(a1, a2) ->
    let t1 = type_check env a1 in
    let t2 = type_check env a2 in Cross(t1, t2)
  | Apply _       -> failwith "todo apply"
- | Lambda _  -> failwith "todo lambda"
+ | Lambda _      -> failwith "todo lambda"
  | Letin(x, t, e1, e2) ->
    match t == (type_check env e1) with
    | false -> failwith "type checking: invalid type"
