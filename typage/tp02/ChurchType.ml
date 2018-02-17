@@ -3,7 +3,7 @@ type chtype =
     Bool
   | Int
   | Cross of chtype * chtype
-  | Arrow of chtype * chtype;;
+  | Arrow of chtype * chtype
 
 type chexpression =
     Var of string
