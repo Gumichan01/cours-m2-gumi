@@ -1,6 +1,6 @@
 
 
-(* sSchema de typeAlpha*)
+(* Schema de typeAlpha*)
 (*type term = *)
 
 type typeSchema =
