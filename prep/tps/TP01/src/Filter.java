@@ -4,16 +4,16 @@ import java.util.concurrent.locks.Lock;
 
 public class Filter implements Lock {
 
-	private int IDLE = -1;
-	private int[] level;
-	private int[] victim;
-	private int size;
+	private static final int IDLE = -1;
+	private volatile int[] level;
+	private volatile int[] victim;
+	private volatile int size;
 
 	public Filter(int threads) {
 
 		size = threads;
 		level = new int[threads];
-		victim = new int[threads - 1];
+		victim = new int[threads];
 	}
 
 	@Override
@@ -29,7 +29,14 @@ public class Filter implements Lock {
 			while (sameOrHigher(me, i) && victim[i] == me) {
 
 			}
+			synchronized (this) {
+				for(int j = 0; j < level.length; j++)
+					System.out.println("level[" + j + "] = " + level[j]);
+				System.out.println();
+			}
 		}
+		
+		level[me] = size - 1;
 	}
 
 	private boolean sameOrHigher(int me, int myLevel) {
