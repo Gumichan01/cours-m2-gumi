@@ -29,11 +29,7 @@ public class Filter implements Lock {
 			while (sameOrHigher(me, i) && victim[i] == me) {
 
 			}
-			synchronized (this) {
-				for(int j = 0; j < level.length; j++)
-					System.out.println("level[" + j + "] = " + level[j]);
-				System.out.println();
-			}
+			
 		}
 		
 		level[me] = size - 1;
