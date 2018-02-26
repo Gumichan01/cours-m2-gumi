@@ -219,7 +219,7 @@ Les question e, f et g pourront être répondue à travers la question *i*
 **(h)**
 
 Si un thread est en section critique, alors tous les autres threads seront au plus
-au niveau *n - 2* (*n* étant le nombre de threads)
+au niveau *n - 2* (*n* étant le nombre de threads
 
 ---
 
