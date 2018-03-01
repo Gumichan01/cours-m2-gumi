@@ -10,7 +10,7 @@ type typeSchema =
   | Arrow of typeSchema * typeSchema
   | Cross of typeSchema * typeSchema
 
-
+(*
 let unify (tslist : (typeSchema * typeSchema) list) : unit =
   match tslist  with
   | [] -> print_string("done") (* todo return something? *)
@@ -20,3 +20,4 @@ and operate : (typeSchema * typeSchema) -> unit =
   function
   | (a,a) ->
   | _ -> expr2
+*)
