@@ -1,4 +1,12 @@
 
+(*
+  ChurchType.ml
+
+  This file defines church type system
+
+  Author : Luxon JEAN-PIERRE
+*)
+
 type chtype =
     Bool
   | Int
