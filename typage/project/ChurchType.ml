@@ -56,13 +56,13 @@ let rec type_check (env: environment) =
   | Const s as cs -> tc env cs
   | Var(s)        -> List.assoc s env
 
-  | Pair(a1, a2)  ->
+  | Pair(a1, a2) ->
     let t1 = type_check env a1 in
     let t2 = type_check env a2 in Cross(t1, t2)
 
-  | Apply(m, n)   -> check_apply_type env m n
+  | Apply(m, n) -> check_apply_type env m n
 
-  | Lambda(x, t, e)     -> (*failwith "TODO type checking lambda"*)
+  | Lambda(x, t, e) ->
     (
       match t = (type_check env e) with
       | false -> failwith "LetIn type checking: invalid type"
