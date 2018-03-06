@@ -29,9 +29,17 @@ let rec free_variable = function
   | ChurchType.Const(_) -> []
   | ChurchType.Pair(m, n)
   | ChurchType.Apply(m, n) -> (free_variable m) @ (free_variable n)
-  | ChurchType.Lambda(_,_, m, n) -> (free_variable m) (* @ (free_variable n) *)
+  | ChurchType.Lambda(_,_, m, _) -> (free_variable m) (* @ (free_variable n) *)
   | ChurchType.Letin(_,_, m, n)  -> (free_variable m) @ (free_variable n)
 
+
+let rec bound_variable = function
+  | ChurchType.Var(_)
+  | ChurchType.Const(_) -> []
+  | ChurchType.Pair(m, n)
+  | ChurchType.Apply(m, n) -> (bound_variable m) @ (bound_variable n)
+  | ChurchType.Lambda(x,_, m, _) -> (bound_variable m) @ [x] (* @ (bound_variable n) *)
+  | ChurchType.Letin(x,_, m, n)  -> (bound_variable m) @ (bound_variable n) @ [x]
 
 (*
   todo
@@ -59,8 +67,11 @@ let rec alpha_conv e env : chexpression =
 ;;
 
 
-let che = Pair ( Var("x") , Pair( Var("z"), Var("x") ) ) in
-let env = ("x","y") :: ("z","w") :: [] in
-let res = alpha_conv che env in
-pretty_print_e res; print_endline("");
-List.map (print_endline) ( List.tl (free_variable che) );;
+let che = Letin("w", Cross(Int, Cross(Int, Int)), Pair(Const("1"), Pair(Var("z"),Var("x"))), Var("w"));;
+let env = ("x","y") :: ("z","w") :: [];;
+(*let res = alpha_conv che env;;
+pretty_print_e res; print_endline("");;*) (* alpha-conversion *)
+print_string("\nFree variables \n\n");;
+List.map (print_endline) ( List.tl (free_variable che) );; (* free_variable *)
+print_string("\nBound variables \n\n");;
+List.map (print_endline) (bound_variable che);; (* bound_variable *)
