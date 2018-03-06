@@ -23,6 +23,9 @@ let assoc_if a l =
   with
   | _ -> None
 
+(*
+  Generate the list of free variables
+*)
 let free_variable chexpr =
   let rec aux_fv bvl = function
   | ChurchType.Var(s) ->
@@ -38,7 +41,9 @@ let free_variable chexpr =
   | ChurchType.Letin(x,_, m, n)  -> (aux_fv (x::bvl) m) @ (aux_fv (x::bvl) n)
   in aux_fv [] chexpr
 
-
+(*
+  Generate the list of bound variables
+*)
 let rec bound_variable = function
   | ChurchType.Var(_)
   | ChurchType.Const(_) -> []
@@ -56,9 +61,7 @@ let rec bound_variable = function
 *)
 let rec alpha_conv e env : chexpression =
   match e with
-  | Var(s) ->
-    let ns = subs_var s env in
-    Var(ns)
+  | Var(s) -> Var(subs_var s env)
 
   | Pair(e1, e2) -> Pair((alpha_conv e1 env), (alpha_conv e2 env))
 
