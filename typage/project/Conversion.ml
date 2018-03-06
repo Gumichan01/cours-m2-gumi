@@ -37,7 +37,7 @@ let free_variable chexpr =
   | ChurchType.Const(_) -> []
   | ChurchType.Pair(m, n)  -> (aux_fv bvl m) @ (aux_fv bvl n)
   | ChurchType.Apply(m, n) -> (aux_fv bvl m) @ (aux_fv bvl n)
-  | ChurchType.Lambda(x,_, m, _) -> (aux_fv (x::bvl) m)
+  | ChurchType.Lambda(x,_, m) -> (aux_fv (x::bvl) m)
   | ChurchType.Letin(x,_, m, n)  -> (aux_fv (x::bvl) m) @ (aux_fv (x::bvl) n)
   in aux_fv [] chexpr
 
@@ -49,7 +49,7 @@ let rec bound_variable = function
   | ChurchType.Const(_) -> []
   | ChurchType.Pair(m, n)
   | ChurchType.Apply(m, n) -> (bound_variable m) @ (bound_variable n)
-  | ChurchType.Lambda(x,_, m, _) -> (bound_variable m) @ [x] (* @ (bound_variable n) *)
+  | ChurchType.Lambda(x,_, m) -> (bound_variable m) @ [x] (* @ (bound_variable n) *)
   | ChurchType.Letin(x,_, m, n)  -> (bound_variable m) @ (bound_variable n) @ [x]
 
 (*
