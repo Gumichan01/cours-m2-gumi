@@ -16,12 +16,22 @@ type substitution = string * string;;
 
 type subList = substitution list;;
 
-
+(* miscelleanous function *)
 let assoc_if a l =
   try
       Some(List.assoc a l)
   with
   | _ -> None
+
+
+let rec free_variable = function
+  | ChurchType.Var(s) -> [s]
+  | ChurchType.Const(_) -> []
+  | ChurchType.Pair(m, n)
+  | ChurchType.Apply(m, n) -> (free_variable m) @ (free_variable n)
+  | ChurchType.Lambda(_,_, m, n) -> (free_variable m) (* @ (free_variable n) *)
+  | ChurchType.Letin(_,_, m, n)  -> (free_variable m) @ (free_variable n)
+
 
 (*
   todo
@@ -52,4 +62,5 @@ let rec alpha_conv e env : chexpression =
 let che = Pair ( Var("x") , Pair( Var("z"), Var("x") ) ) in
 let env = ("x","y") :: ("z","w") :: [] in
 let res = alpha_conv che env in
-pretty_print_e res; print_endline("");;
+pretty_print_e res; print_endline("");
+List.map (print_endline) ( List.tl (free_variable che) );;
