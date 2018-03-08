@@ -21,8 +21,8 @@ Hypothèses:
 
 Démontrons par l'absurde l'affirmation formulée dans l'énoncé.
 
-Supposons que si au début de la ronde *r*, il y a au moins un candidat,
-alors **à la fin de la ronde *r*, il n'y a plus de candidat**.
+Supposons qu'au début de la ronde *r*, il y a au moins un candidat,
+et qu'à la fin de la ronde *r*, il n'y a plus de candidat.
 
 Cela signifie donc que tous les processus qui étaient candidats au début de la ronde *r*,
 ne le sont plus a la fin de *r*. Donc tous les processus ont eu la condition suivante :
@@ -123,13 +123,30 @@ Si c'est le cas, alors cela signifie que causalement, il a reçu son propre mess
 Par conséquent, il va envoyer le message ```< Vₚ, ⊥, true >``` qui traversera tout l'anneau
 afin de signaler aux autres processus (qui sont perdants) d'arrêter l'algorithme.
 
-Montrons que cette algorithme respectes les deux propriétés suivantes:
+Montrons que cette algorithme respecte les deux propriétés suivantes:
 
-1. Si l'algorithme termine, alors il ne reste plus qu'un seul processus candidat
+**1**. Si l'algorithme termine, alors il ne reste plus qu'un seul processus candidat
 
-2. La probabilité que l'algorithme termine est 1 (plus exactement la probabilité
-    qu'il ne termine pas avant la ronde *r* tend vers 0quand *r* tend vers l'infini)
+**2**. La probabilité que l'algorithme termine est 1 (plus exactement la probabilité
+    qu'il ne termine pas avant la ronde *r* tend vers 0 quand *r* tend vers l'infini)
 
+Montrons par l'absurde la propriété (**1**).
+
+Supposons que l'algorithme termine et qu'il reste au moins 2 processus candidats.
+
+Cela signifie que les deux processus ont eu la condition suivant comme étant vraie :
+
+```Vₚ = W and K = 1```
+
+Les deux processus ont donc la même valeur Vₚ, ce qui est possible.
+Deux plus, ```K = 1```. Donc, cela signifie qu'il ne reste qu'un seul processus.
+Or, on a supossé qu'à la fin de l'algorithme, il reste deux processus candidats au moins.
+C'est contradictoire.
+
+La propriété (1) est donc vraie.
+
+Pour la propriété (2) le raisonnement devrait être similaire à ce qui a été fait
+pour la permière version de l'algorithme (celle qui ne termine pas).
 
 > Question (e)
 
@@ -175,3 +192,5 @@ for r := 0 to ∞ do
 ```
 
 ## Exercice n° 2 ##
+
+Je n'ai pas réussi à faire un algorithme d'élection correct.
