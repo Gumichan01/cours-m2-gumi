@@ -48,7 +48,7 @@ alors à la fin de la ronde *r*, il n'y a aussi au moins de candidat.
 Pour répondre à cette question, nous avons fait un arbre de probabilité, afin de connaitre
 la probabilité qu'un processus candidat *p* ne soit plus candidat à la fin d'une ronde *r*.
 
-![Arbre probabilité](/path/to/img.jpg)
+![Arbre probabilité](dm02.jpg)
 TODO mettre la photo de l'arbre de probabilité
 
 La probabilité que *p* ne soit plus candidat à la fin de la ronde,
@@ -193,4 +193,4 @@ for r := 0 to ∞ do
 
 ## Exercice n° 2 ##
 
-Je n'ai pas réussi à faire un algorithme d'élection correct.
+Nous n'avons pas réussi à faire un algorithme d'élection correct.
