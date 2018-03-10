@@ -11,13 +11,12 @@ type typeSchema =
   | Cross of typeSchema * typeSchema
 
 (*
-let unify (tslist : (typeSchema * typeSchema) list) : unit =
+let rec unify (tslist : (typeSchema * typeSchema) list) : unit =
   match tslist  with
   | [] -> print_string("done") (* todo return something? *)
-  | h::q ->
+  | h::q -> print_string(" todo ..."); unify q
 
 and operate : (typeSchema * typeSchema) -> unit =
   function
   | (a,a) ->
-  | _ -> expr2
-*)
+  | _ -> expr2*)
