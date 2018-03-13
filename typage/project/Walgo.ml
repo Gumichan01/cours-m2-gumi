@@ -17,13 +17,12 @@ let rec infer_program : ChurchType.chexpression list -> ChurchType.chtype =
 let rec infer (env : environment) (e : ChurchType.chexpression) =
   match e with
   | ChurchType.Var(_) -> failwith "TODO W-algorithm: Var"
-  | ChurchType.Const(_) -> failwith "TODO W-algorithm: Const"
+  | ChurchType.Const(s) -> (ChurchType.Int, "id") (* change it *)
   | ChurchType.Pair(_,_) -> failwith "TODO W-algorithm: Pair"
   | ChurchType.Apply(_,_) -> failwith "TODO W-algorithm: Apply"
   | ChurchType.Lambda(_,_,_) -> failwith "TODO W-algorithm: Lambda"
   | ChurchType.Letin(_,_,_,_) -> failwith "TODO W-algorithm: Letin"
   (*failwith "TODO W-algorithm"*)
-
 
 
 (*
