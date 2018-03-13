@@ -24,7 +24,7 @@ let rec infer (env : environment) (e : ChurchType.chexpression) =
 
     - (TODO final goal) Apply the algorithm for each element of type chtype (an expression).
     - (TODO) Unify the expression if necessary
-    - (TODO) Free and bound variables
+    - (DONE) Free and bound variables
     - (TODO) α-conversion
 
 *)

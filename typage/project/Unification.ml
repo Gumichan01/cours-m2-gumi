@@ -10,6 +10,8 @@ type typeSchema =
   | Arrow of typeSchema * typeSchema
   | Cross of typeSchema * typeSchema
 
+(* @note The function fails if a variable capture happened during the alpha-conversion *)
+
 (*
 let rec unify (tslist : (typeSchema * typeSchema) list) : unit =
   match tslist  with
