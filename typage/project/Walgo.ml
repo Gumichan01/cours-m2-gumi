@@ -121,8 +121,6 @@ let rec infer (delta : environment) (e : expression) =
 (*
     Comment:
 
-    - (TODO) 1 - σ(Δ) → voir 05-polymorphisme.pdf 24/29
-
     - (TODO final goal) Apply the algorithm for each element of type chtype (an expression).
     - (TODO) Unify the expression if necessary
     - (DONE) Free and bound variables
