@@ -58,18 +58,20 @@ let rec infer (delta : environment) (e : expression) =
   | Lambda(_,_) -> failwith "TODO W-algorithm: Lambda"
   | Letin(_,_,_) -> failwith "TODO W-algorithm: Letin"
 
+  (* Get the type instance of the variable or the constant value *)
   and inst env = function
   | Var(s) -> List.assoc s env
   | Const(x) -> inst_constv x
-  | _-> assert(false) (* instance of variable of value type *)
+  | _-> assert(false) (* type instance *)
 
+  (* Get the type instance of constant value *)
   and inst_constv x =
     (match inst_intv x with
      | Some(_) -> IInt
      | None ->
        (match x with
         | "true" | "false" -> IBool
-        | _ -> assert(false) (* Internal issue *)
+        | _ -> assert(false) (* pre-condoition: integer or boolean value *)
        )
     )
   and inst_intv s =
