@@ -24,7 +24,7 @@ type itype =
   | IInt
   | ICross of itype * itype
   | IArrow of itype * itype
-  | IVar of tvar
+  (*| IVar of tvar*)
 
 and tvar = { id: int; mutable def: itype option}
 
@@ -40,8 +40,22 @@ let bool_ops = ["&&"; "||"]
 let math_basictype = IArrow(ICross(IInt, IInt), IInt)
 let bool_basictype = IArrow(ICross(IBool, IBool), IBool)
 
+(*
+  There is a function that does the job in Ocaml 4.06, but I don't have this version.
+  So I implemented it myself
+*)
+let lassoc_opt e l =
+  try
+      Some(List.assoc e l)
+  with
+  | _ -> None
+
+
 (* Typing environment *)
 type environment = (string * itype) list
+
+(* substitution *)
+type unifier = (itype * itype) list
 
 let rec infer_program : expression list -> itype =
   failwith "TODO inference + W-algorithm"
@@ -58,9 +72,32 @@ let rec infer (delta : environment) (e : expression) =
   | Lambda(_,_) -> failwith "TODO W-algorithm: Lambda"
   | Letin(_,_,_) -> failwith "TODO W-algorithm: Letin"
 
+  (*
+    I want to make the following calculation
+
+    Let Γ = x₁ : A₁, ..., xₙ : Aₙ an environment, and σ a type substitution.
+    So σ(Γ) = x₁ : σ(A₁), ..., xₙ : σ(Aₙ)
+
+  *)
+  and sigma (delta: environment) (sub: unifier) =
+    match sub with
+    | [] -> delta
+    | _ -> match delta with [] -> delta | _ ->  sigma_in delta sub
+
+  (* pre-condition: sub is not an empty list *)
+  and sigma_in (delta: environment) (sub: unifier) =
+    match delta with
+    | [] -> delta
+    | (x, a)::q ->
+      (match lassoc_opt a sub with
+       | Some(t) -> (x, t) :: sigma_in q sub
+       | None -> (x, a) :: sigma_in q sub
+      )
+
+
   (* Get the type instance of the variable or the constant value *)
   and inst env = function
-  | Var(s) -> List.assoc s env
+  | Var(s)   -> List.assoc s env
   | Const(x) -> inst_constv x
   | _-> assert(false) (* type instance *)
 
