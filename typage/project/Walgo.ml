@@ -9,21 +9,55 @@
 
 open ChurchType;;
 
-type environment = ()
+type expression =
+    Var of string
+  | Const of string
+  | Pair of expression * expression
+  | Apply of expression * expression
+  | Lambda of string * expression
+  | Letin of string * expression * expression
 
-let rec infer_program : ChurchType.chexpression list -> ChurchType.chtype =
+type itype =
+  | IBool
+  | IInt
+  | ICross of chtype * chtype
+  | IArrow of chtype * chtype
+  | IVar of tvar
+
+and tvar = { id: int; mutable def: itype option}
+
+
+type environment = string *
+
+let rec infer_program : expression list -> ChurchType.chtype =
   failwith "TODO inference + W-algorithm"
 
-let rec infer (env : environment) (e : ChurchType.chexpression) =
+let rec infer (env : environment) (e : expression) =
   match e with
-  | ChurchType.Var(_) -> failwith "TODO W-algorithm: Var"
-  | ChurchType.Const(s) -> (ChurchType.Int, "id") (* change it *)
-  | ChurchType.Pair(_,_) -> failwith "TODO W-algorithm: Pair"
-  | ChurchType.Apply(_,_) -> failwith "TODO W-algorithm: Apply"
-  | ChurchType.Lambda(_,_,_) -> failwith "TODO W-algorithm: Lambda"
-  | ChurchType.Letin(_,_,_,_) -> failwith "TODO W-algorithm: Letin"
+  | Var(_) ->  (ChurchType.Int, [])(*failwith "TODO W-algorithm: Var"*)
+  | Const(x) -> (inst(x), []) (* change it *)
+  | Pair(_,_) -> failwith "TODO W-algorithm: Pair"
+  | Apply(_,_) -> failwith "TODO W-algorithm: Apply"
+  | Lambda(_,_) -> failwith "TODO W-algorithm: Lambda"
+  | Letin(_,_,_) -> failwith "TODO W-algorithm: Letin"
   (*failwith "TODO W-algorithm"*)
 
+and inst x =
+  let inst_int s =
+    try
+      Some(int_of_string s)
+    with
+    | _ -> None
+  in
+  (
+  match inst_int x with
+  | Some(_) -> ChurchType.Int
+  | None ->
+    (match x with
+     | "true" | "false" -> ChurchType.Bool
+     | _ -> assert(false) (* Internal issue *)
+    )
+  )
 
 (*
     Comment:
