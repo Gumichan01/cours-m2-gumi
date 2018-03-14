@@ -46,10 +46,14 @@ type environment = (string * itype) list
 let rec infer_program : expression list -> itype =
   failwith "TODO inference + W-algorithm"
 
-let rec infer (env : environment) (e : expression) =
+let rec infer (delta : environment) (e : expression) =
   match e with
-  | Var(_) | Const(_) as cv -> (inst env cv, [])
-  | Pair(N, L) -> failwith "TODO W-algorithm: Pair"
+  | Var(_) | Const(_) as cv -> (inst delta cv, [])
+  | Pair(n, l) ->
+    let b, rhob = infer delta n in
+    let c, rhoc = infer delta l in
+    (IInt, []) (* change it *)
+
   | Apply(_,_) -> failwith "TODO W-algorithm: Apply"
   | Lambda(_,_) -> failwith "TODO W-algorithm: Lambda"
   | Letin(_,_,_) -> failwith "TODO W-algorithm: Letin"
@@ -78,6 +82,8 @@ let rec infer (env : environment) (e : expression) =
 
 (*
     Comment:
+
+    - (TODO) 1 - σ(Δ) → voir 05-polymorphisme.pdf 24/29
 
     - (TODO final goal) Apply the algorithm for each element of type chtype (an expression).
     - (TODO) Unify the expression if necessary

@@ -19,6 +19,8 @@ module V :
     val equal : tvar -> tvar -> bool
     val create : unit -> tvar
   end
+val math_ops : string list
+val bool_ops : string list
 type environment = (string * itype) list
 val infer_program : expression list -> itype
 val infer : environment -> expression -> itype * 'a list
