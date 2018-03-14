@@ -5,14 +5,18 @@ type expression =
   | Apply of expression * expression
   | Lambda of string * expression
   | Letin of string * expression * expression
-type itype = IBool | IInt | ICross of itype * itype | IArrow of itype * itype
-and tvar = { id : int; mutable def : itype option; }
+type itype =
+    IBool
+  | IInt
+  | ICross of itype * itype
+  | IArrow of itype * itype
+  | IVar of string
 module V :
   sig
-    type t = tvar
-    val compare : tvar -> tvar -> int
-    val equal : tvar -> tvar -> bool
-    val create : unit -> tvar
+    type t = string
+    val compare : 'a -> 'a -> int
+    val equal : 'a -> 'a -> bool
+    val create : unit -> itype
   end
 val math_ops : string list
 val bool_ops : string list

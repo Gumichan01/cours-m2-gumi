@@ -24,15 +24,14 @@ type itype =
   | IInt
   | ICross of itype * itype
   | IArrow of itype * itype
-  (*| IVar of tvar*)
-
-and tvar = { id: int; mutable def: itype option}
+  (* temporay type I am using *)
+  | IVar of string
 
 module V = struct
-  type t = tvar
-  let compare v1 v2 = Pervasives.compare v1.id v2.id
-  let equal v1 v2 = v1.id = v2.id
-  let create = let r = ref 0 in fun () -> incr r; { id = !r; def = None }
+  type t = string
+  let compare v1 v2 = Pervasives.compare v1 v2
+  let equal v1 v2 = v1 = v2
+  let create = let r = ref 0 in fun () -> incr r; IVar("α" ^ string_of_int(!r))
 end
 
 let math_ops = ["+"; "-"; "*"; "/"]
@@ -66,10 +65,14 @@ let rec infer (delta : environment) (e : expression) =
   | Pair(n, l) ->
     let b, rhob = infer delta n in
     let c, rhoc = infer (sigma delta rhob) l in
-    (IInt, []) (* change it *)
+    (ICross(b, c), []) (* change it *)
 
   | Apply(_,_) -> failwith "TODO W-algorithm: Apply"
-  | Lambda(_,_) -> failwith "TODO W-algorithm: Lambda"
+  | Lambda(x, n) -> (*failwith "TODO W-algorithm: Lambda"*)
+    let fresh_alpha =  (V.create ()) in
+    let b, rho = infer ((x, fresh_alpha)::delta) n in
+    (IArrow(fresh_alpha, b), []) (* change it *)
+
   | Letin(_,_,_) -> failwith "TODO W-algorithm: Letin"
 
   (*
@@ -122,6 +125,8 @@ let rec infer (delta : environment) (e : expression) =
     Comment:
 
     - (TODO final goal) Apply the algorithm for each element of type chtype (an expression).
+      (TODO) replace a type by another using the substitution
+      (TODO) σ₁ o σ₂ function
     - (TODO) Unify the expression if necessary
     - (DONE) Free and bound variables
     - (TODO) α-conversion
