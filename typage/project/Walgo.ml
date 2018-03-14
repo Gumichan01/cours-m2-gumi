@@ -22,8 +22,8 @@ type expression =
 type itype =
   | IBool
   | IInt
-  | ICross of chtype * chtype
-  | IArrow of chtype * chtype
+  | ICross of itype * itype
+  | IArrow of itype * itype
   | IVar of tvar
 
 and tvar = { id: int; mutable def: itype option}
@@ -35,6 +35,11 @@ module V = struct
   let create = let r = ref 0 in fun () -> incr r; { id = !r; def = None }
 end
 
+let math_ops = ["+"; "-"; "*"; "/"]
+let bool_ops = ["&&"; "||"]
+let math_basictype = IArrow(ICross(IInt, IInt), IInt)
+let bool_basictype = IArrow(ICross(IBool, IBool), IBool)
+
 (* Typing environment *)
 type environment = (string * itype) list
 
@@ -44,11 +49,10 @@ let rec infer_program : expression list -> itype =
 let rec infer (env : environment) (e : expression) =
   match e with
   | Var(_) | Const(_) as cv -> (inst env cv, [])
-  | Pair(_,_) -> failwith "TODO W-algorithm: Pair"
+  | Pair(N, L) -> failwith "TODO W-algorithm: Pair"
   | Apply(_,_) -> failwith "TODO W-algorithm: Apply"
   | Lambda(_,_) -> failwith "TODO W-algorithm: Lambda"
   | Letin(_,_,_) -> failwith "TODO W-algorithm: Letin"
-  (*failwith "TODO W-algorithm"*)
 
   and inst env = function
   | Var(s) -> List.assoc s env
