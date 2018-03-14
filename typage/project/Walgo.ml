@@ -65,7 +65,7 @@ let rec infer (delta : environment) (e : expression) =
   | Var(_) | Const(_) as cv -> (inst delta cv, [])
   | Pair(n, l) ->
     let b, rhob = infer delta n in
-    let c, rhoc = infer delta l in
+    let c, rhoc = infer (sigma delta rhob) l in
     (IInt, []) (* change it *)
 
   | Apply(_,_) -> failwith "TODO W-algorithm: Apply"
@@ -93,7 +93,6 @@ let rec infer (delta : environment) (e : expression) =
        | Some(t) -> (x, t) :: sigma_in q sub
        | None -> (x, a) :: sigma_in q sub
       )
-
 
   (* Get the type instance of the variable or the constant value *)
   and inst env = function
