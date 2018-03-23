@@ -1,0 +1,24 @@
+
+# Système embarqué - TP 2 #
+
+Temps estimé : ~ 2 heures 30
+Temps passé : 3 heures
+
+## Compilation ##
+
+Générer l'exécutable et les fichiers bibliothèques
+
+    > make
+
+Nettoyer les fichiers intermédiaires:
+
+    > make clean
+
+Tout nettoyer:
+
+    > make clear
+
+
+Exécuter le test automatique:
+
+    > ./test-collimacon

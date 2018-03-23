@@ -1,0 +1,11 @@
+
+TP n° 3 - Luxon JEAN-PIERRE
+
+Pour compiler le programme:
+
+    make
+
+Par défaut, le programme hello est dynamiquement lié.
+Pour le générer statiquement il faut lancer la comande suivante:
+
+    make DYM=no

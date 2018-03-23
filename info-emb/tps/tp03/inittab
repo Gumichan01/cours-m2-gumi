@@ -1,0 +1,2 @@
+::respawn:/sbin/getty 115200 ttyS0
+::respawn:/control-module/bin/init

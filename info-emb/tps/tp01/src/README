@@ -1,0 +1,25 @@
+
+# Système embarqué - TP 1 #
+
+Temps estimé : ~ 3 heures
+Temps passé : 2 heures
+
+## Compilation ##
+
+Générer l'exécutable
+
+    > make
+
+Nettoyer les fichiers intermédiaires:
+
+    > make clean
+
+Tout nettoyer:
+
+    > make clean
+
+
+## Où j'en suis ? ##
+
+J'ai réussi à faire le programme, j'ai pu le tester sur différents cas
+et il a bien fonctionné.
