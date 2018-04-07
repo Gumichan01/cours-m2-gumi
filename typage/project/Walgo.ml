@@ -68,6 +68,7 @@ let rec infer (delta : environment) (e : expression) =
     (ICross(b, c), []) (* change it *)
 
   | Apply(_,_) -> failwith "TODO W-algorithm: Apply"
+
   | Lambda(x, n) -> (*failwith "TODO W-algorithm: Lambda"*)
     let fresh_alpha =  (V.create ()) in
     let b, rho = infer ((x, fresh_alpha)::delta) n in
@@ -127,7 +128,7 @@ let rec infer (delta : environment) (e : expression) =
     - (TODO final goal) Apply the algorithm for each element of type chtype (an expression).
       (TODO) replace a type by another using the substitution
       (TODO) σ₁ o σ₂ function
-    - (TODO) Unify the expression if necessary
+    - (TODO) Unification
     - (DONE) Free and bound variables
     - (TODO) α-conversion
 
